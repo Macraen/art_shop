@@ -4,10 +4,12 @@
 /* @var $content string */
 
 use app\widgets\Alert;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 
@@ -35,6 +37,7 @@ AppAsset::register($this);
     <link rel="stylesheet" type="text/css" href="web/css/site_global.css?crc=443350757"/>
     <link rel="stylesheet" type="text/css" href="web/css/master_______-a.css?crc=4024626471"/>
     <link rel="stylesheet" type="text/css" href="web/css/cabinet.css?crc=54211382" id="pagesheet"/>
+    <link rel="stylesheet" type="text/css" href="../uploads/modal.css" id="pagesheet"/>
     <!-- IE-only CSS -->
     <!--[if lt IE 9]>
     <link rel="stylesheet" type="text/css" href="web/css/nomq_preview_master_______-a.css?crc=3818994432"/>
@@ -104,6 +107,8 @@ AppAsset::register($this);
                 </div>
             </div>
         </div>
+
+
         <div class="clearfix colelem shared_content" id="pu13459" data-content-guid="pu13459_content"><!-- group -->
             <div class="rounded-corners clearfix grpelem shared_content" id="u13459" data-content-guid="u13459_content"><!-- group -->
                 <div class="rounded-corners clearfix grpelem shared_content" id="u22759" data-content-guid="u22759_content"><!-- group -->
@@ -127,8 +132,13 @@ AppAsset::register($this);
                     <div class="clearfix grpelem shared_content" id="u235-4" data-content-guid="u235-4_content"><!-- content -->
                         <p><?=Yii::$app->user->identity->firstname?></p>
                     </div>
+                    <?php
+                    $nameImage =  Yii::$app->user->identity->image;
+                    $setImage = "../../webroot/uploads/".$nameImage;
+
+                    ?>
                     <div class="rounded-corners clip_frame grpelem shared_content" id="u28863" data-content-guid="u28863_content"><!-- image -->
-                        <img class="block temp_no_img_src" id="u28863_img" data-orig-src="<?=Yii::$app->user->identity->photo?>" alt="" width="147" height="147" src="<?=Yii::$app->user->identity->photo?>"/>
+                        <img class="block temp_no_img_src" id="u28863_img" data-orig-src="<?=$setImage?>" alt="" width="147" height="147" src="<?=$setImage?>"/>
                     </div>
                     <div class="clearfix grpelem shared_content" id="u238-4" data-content-guid="u238-4_content"><!-- content -->
                         <p><?=Yii::$app->user->identity->surename?></p>
@@ -157,7 +167,8 @@ AppAsset::register($this);
                     <div class="clearfix grpelem shared_content" id="u520-4" data-content-guid="u520-4_content"><!-- content -->
                         <p><?=Yii::$app->user->identity->city?></p>
                     </div>
-                    <a class="nonblock nontext transition rounded-corners clearfix grpelem shared_content" id="u534-4" href="index.html" target="_blank" data-content-guid="u534-4_content"><!-- content --><p id="u534-2">Обрати аватар</p></a>
+
+                    <button class="nonblock nontext transition rounded-corners clearfix grpelem shared_content popup-btn" id="u534-4" href="index.html" target="_blank" data-content-guid="u534-4_content"><!-- content --><p id="u534-2">Обрати аватар</p></button>
                     <div class="clearfix grpelem shared_content" id="u588-4" data-content-guid="u588-4_content"><!-- content -->
                         <p>Інформація</p>
                     </div>
@@ -176,7 +187,7 @@ AppAsset::register($this);
                     if($mDialog!=NULL):
                     ?>
                     <div class="rounded-corners clip_frame grpelem shared_content" id="u29063" data-content-guid="u29063_content"><!-- image -->
-                        <img class="block temp_no_img_src" id="u29063_img" data-orig-src="<?=$sender[photo];?>" alt="" width="44" height="44" src="<?=$sender[photo];?>"/>
+                        <img class="block temp_no_img_src" id="u29063_img" data-orig-src="<?=$sender[image];?>" alt="" width="44" height="44" src="<?=$sender[image];?>"/>
                     </div>
                     <a class="nonblock nontext rounded-corners clearfix grpelem" id="u26076" href="chat.html"><!-- column --><div class="clearfix colelem" id="pu14650-4"><!-- group --><div class="clearfix grpelem shared_content" id="u14650-4" data-content-guid="u14650-4_content"><!-- content --><p id="u14650-2"><?=$sender[firstname]." ".$sender[surename]?></p></div><div class="rounded-corners grpelem shared_content" id="u26169" data-content-guid="u26169_content"><!-- simple frame --></div><div class="clearfix grpelem shared_content" id="u26148-4" data-content-guid="u26148-4_content"><!-- content --><p id="u26148-2">нове повідомлення</p></div></div><div class="clearfix colelem shared_content" id="u26106-4" data-content-guid="u26106-4_content"><!-- content --><p id="u26106-2"><?=$message[0]['text']?></p></div></a>
                     <? endif;?>
@@ -198,6 +209,27 @@ AppAsset::register($this);
         </div>
         <div class="colelem shared_content" id="u36474" data-content-guid="u36474_content"><!-- simple frame --></div>
         <div class="verticalspacer" data-offset-top="1279" data-content-above-spacer="1279" data-content-below-spacer="178"></div>
+
+
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <?php $form = ActiveForm::begin(); ?>
+
+                <h3 class="text">Завантаження зображення</h3>
+                <?= $form->field($model, 'image')->fileInput(['class'=>'file'], ['maxlength' => true]);
+
+                ?>
+
+                <div class="form-group">
+                    <?= Html::submitButton('Завантажити', ['class' => 'btn btn-success']) ?>
+                </div>
+
+                <?php ActiveForm::end(); ?>
+            </div>
+        </div>
+
+
         <div class="browser_width colelem" id="u31041-bw">
             <div id="u31041"><!-- group -->
                 <div class="clearfix" id="u31041_align_to_page">
@@ -229,6 +261,8 @@ AppAsset::register($this);
         </div>
     </div>
 </div>
+
+
 <div class="breakpoint" id="bp_1140" data-min-width="961" data-max-width="1140"><!-- responsive breakpoint node -->
     <div class="clearfix borderbox temp_no_id" data-orig-id="page"><!-- column -->
         <div class="browser_width colelem temp_no_id" data-orig-id="u120395-bw">
@@ -863,7 +897,7 @@ AppAsset::register($this);
             <span class="grpelem placeholder" data-placeholder-for="u567_content"><!-- placeholder node --></span>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u235-4_content"><!-- placeholder node --></span>
             <div class="rounded-corners clip_frame grpelem temp_no_id" data-orig-id="u28863"><!-- image -->
-                <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=Yii::$app->user->identity->photo?>" alt="" width="118" height="118" data-orig-id="u28863_img" src="<?=Yii::$app->user->identity->photo?>"/>
+                <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=$nameImage?>" alt="" width="118" height="118" data-orig-id="u28863_img" src="<?=$nameImage?>"/>
             </div>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u238-4_content"><!-- placeholder node --></span>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u241-4_content"><!-- placeholder node --></span>
@@ -895,7 +929,7 @@ AppAsset::register($this);
         <div class="clearfix colelem temp_no_id" data-orig-id="pu14614"><!-- group -->
             <div class="rounded-corners clearfix grpelem temp_no_id" data-orig-id="u14614"><!-- group -->
                 <div class="rounded-corners clip_frame grpelem temp_no_id" data-orig-id="u29063"><!-- image -->
-                    <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=$sender[photo];?>" alt="" width="41" height="41" data-orig-id="u29063_img" src="<?=$sender[photo];?>"/>
+                    <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=$sender[image];?>" alt="" width="41" height="41" data-orig-id="u29063_img" src="<?=$sender[image];?>"/>
                 </div>
             </div>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u14650-4_content"><!-- placeholder node --></span>
@@ -962,7 +996,7 @@ AppAsset::register($this);
             <span class="grpelem placeholder" data-placeholder-for="u567_content"><!-- placeholder node --></span>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u235-4_content"><!-- placeholder node --></span>
             <div class="rounded-corners clip_frame grpelem temp_no_id" data-orig-id="u28863"><!-- image -->
-                <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=Yii::$app->user->identity->photo?>" alt="" width="129" height="129" data-orig-id="u28863_img" src="<?=Yii::$app->user->identity->photo?>"/>
+                <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=$setImage?>" alt="" width="129" height="129" data-orig-id="u28863_img" src="<?=$setImage?>"/>
             </div>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u238-4_content"><!-- placeholder node --></span>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u241-4_content"><!-- placeholder node --></span>
@@ -1074,7 +1108,7 @@ AppAsset::register($this);
             <span class="grpelem placeholder" data-placeholder-for="u567_content"><!-- placeholder node --></span>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u235-4_content"><!-- placeholder node --></span>
             <div class="rounded-corners clip_frame grpelem temp_no_id" data-orig-id="u28863"><!-- image -->
-                <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=Yii::$app->user->identity->photo?>" alt="" width="111" height="111" data-orig-id="u28863_img" src="<?=Yii::$app->user->identity->photo?>"/>
+                <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=$setImage?>" alt="" width="111" height="111" data-orig-id="u28863_img" src="<?=$setImage?>"/>
             </div>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u238-4_content"><!-- placeholder node --></span>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u241-4_content"><!-- placeholder node --></span>
@@ -1108,7 +1142,7 @@ AppAsset::register($this);
         <div class="clearfix colelem temp_no_id" data-orig-id="pu14614"><!-- group -->
             <div class="rounded-corners clearfix grpelem temp_no_id" data-orig-id="u14614"><!-- group -->
                 <div class="rounded-corners clip_frame grpelem temp_no_id" data-orig-id="u29063"><!-- image -->
-                    <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=$sender[photo];?>" alt="" width="42" height="42" data-orig-id="u29063_img" src="<?=$sender[photo];?>"/>
+                    <img class="block temp_no_id temp_no_img_src" data-orig-src="<?=$sender[image];?>" alt="" width="42" height="42" data-orig-id="u29063_img" src="<?=$sender[image];?>"/>
                 </div>
             </div>
             <span class="clearfix grpelem placeholder" data-placeholder-for="u14650-4_content"><!-- placeholder node --></span>
@@ -1165,6 +1199,7 @@ AppAsset::register($this);
 <!-- RequireJS script -->
 <?php $this->endBody() ?>
 <script src="web/scripts/require.js?crc=3951022091" type="text/javascript" async data-main="web/scripts/museconfig.js?crc=474374037" onload="if (requirejs) requirejs.onError = function(requireType, requireModule) { if (requireType && requireType.toString && requireType.toString().indexOf && 0 <= requireType.toString().indexOf('#scripterror')) window.Muse.assets.check(); }" onerror="window.Muse.assets.check();"></script>
+<script src="../uploads/modal.js" type="text/javascript"></script>
 </body>
 </html>
 <?php $this->endPage() ?>

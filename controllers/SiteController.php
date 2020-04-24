@@ -9,6 +9,7 @@ use app\models\Chat;
 use app\models\Comment;
 use app\models\CommentForm;
 use app\models\Dialog;
+use app\models\ImageUpload;
 use app\models\MessageForm;
 use app\models\Repass;
 use app\models\User;
@@ -22,6 +23,7 @@ use yii\helpers\Url;
 use yii\web\Controller;
 use app\models\Signup;
 use app\models\Login;
+use yii\web\UploadedFile;
 
 class SiteController extends Controller
 {
@@ -302,6 +304,17 @@ class SiteController extends Controller
         $sender = User::findOne($senderID);
 
 
+        $model = new ImageUpload;
+
+        if(Yii::$app->request->isPost){
+            $user = User::findOne(Yii::$app->user->identity->id);
+
+            $file = UploadedFile::getInstance($model, 'image');
+
+            if($user->saveImage($model->uploadFile($file, $user->image))){
+                return $this->redirect(['cabinet', 'id'=>Yii::$app->user->identity->id]);;
+            }
+        }
 
         return $this->render('cabinet', [
             'articles'=>$articles,
@@ -309,8 +322,14 @@ class SiteController extends Controller
             'mDialog'=>$mDialog,
             'message'=>$message,
             'sender'=>$sender,
+            'model' => $model,
         ]);
     }
+
+    public function actionUpload(){
+        return $this->render('upload');
+
+}
 
 
 

@@ -17,13 +17,14 @@ use yii\web\IdentityInterface;
  * @property string|null $email
  * @property string|null $password
  * @property int|null $isAdmin
- * @property string|null $photo
+ * @property string|null $image
  * @property string|null $code
  * @property int|null $active
  * @property float|null $money
  *
  * @property Comment[] $comments
  */
+
 class User extends ActiveRecord implements IdentityInterface
 {
     /**
@@ -42,7 +43,7 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             [['isAdmin', 'active'], 'integer'],
             [['firstname', 'surename', 'city', 'date', 'email'], 'string', 'max' => 100],
-            [['password', 'photo', 'code'], 'string', 'max' => 255],
+            [['password', 'image', 'code'], 'string', 'max' => 255],
         ];
     }
 
@@ -60,7 +61,7 @@ class User extends ActiveRecord implements IdentityInterface
             'email' => 'Email',
             'password' => 'Password',
             'isAdmin' => 'Is Admin',
-            'photo' => 'Photo',
+            'image' => 'Image',
             'code' => 'Code',
             'active' => 'Active',
         ];
@@ -97,7 +98,12 @@ class User extends ActiveRecord implements IdentityInterface
     }
 
     public function getImage(){
-        return $this->photo;
+        return $this->image;
+    }
+
+    public  function saveImage($filename){
+        $this->image= $filename;
+        return $this->save(false);
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
