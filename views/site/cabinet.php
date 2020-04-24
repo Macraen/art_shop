@@ -217,7 +217,7 @@ AppAsset::register($this);
                 <?php $form = ActiveForm::begin(); ?>
 
                 <h3 class="text">Завантаження зображення</h3>
-                <?= $form->field($model, 'image')->fileInput(['class'=>'file'], ['maxlength' => true]);
+                <?= $form->field($model, 'image', ['options' => ['class' => 'fileInput']])->fileInput(['maxlength' => true]);
 
                 ?>
 
