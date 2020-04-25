@@ -297,7 +297,7 @@ class SiteController extends Controller
         $message = (new Query())
             ->select(['*'])
             ->from('message')
-            ->where(['did' => 3])
+            ->where(['did' => $mDialog[0]['id']])
             ->orderBy('date DESC')
             ->limit(1)
             ->all();
@@ -326,9 +326,33 @@ class SiteController extends Controller
         ]);
     }
 
-    public function actionUpload(){
-        return $this->render('upload');
 
+public function actionDialog($id, $mDialog){
+        $sender = User::findOne($id);
+
+        $messages = (new Query())
+        ->select(['*'])
+        ->from('message')
+        ->where(['did' => $mDialog])
+        ->orderBy('date DESC')
+        ->limit(5)
+        ->all();
+
+    $model = new MessageForm();
+    if(Yii::$app->request->isPost){
+        $model->load(Yii::$app->request->post());
+        if($model->sendMessage($id)){
+            return $this->redirect(Yii::$app->request->referrer);
+        }
+    }
+
+    $statusZero = (new \app\models\Dialog)->actionUpdateStatus($mDialog);
+
+    return $this->render('dialog', [
+        'sender'=> $sender,
+        'messages'=>$messages,
+        'model' => $model,
+    ]);
 }
 
 

@@ -60,10 +60,18 @@ class MessageForm extends Model
             ->from('dialog')
             ->where(['recive' => $ID->id])
             ->andWhere(['send' => $myId])
-            ->orWhere(['recive' => $myId])
-            ->andWhere(['send' => $ID->id])
             ->limit(1)
             ->all();
+
+        if(!$Row){
+            $Row = (new Query())
+                ->select(['id'])
+                ->from('dialog')
+                ->where(['recive' => $myId] )
+                ->andWhere(['send' => $ID->id])
+                ->limit(1)
+                ->all();
+        }
 
 
 
@@ -71,19 +79,19 @@ class MessageForm extends Model
 
             $DID = $Row;
 
-            $dialog_update = (new Dialog)->actionUpdate($Row,0,$myId,$ID->id);
+            $dialog_update = (new Dialog)->actionUpdate($DID[0]['id'],1,$myId,$ID->id);
             $dialog_update->save();
         } else {
 
-            $dialog_insert = (new Dialog)->actionInsert(0,$myId,$ID->id);
+            $dialog_insert = (new Dialog)->actionInsert(1,$myId,$ID->id);
             $dialog_insert->save();
 
 
-            $DID = Message::find()->orderBy('id DESC')->one();
+//            $DID = Message::find()->orderBy('id DESC')->one();
 
         }
 
-        $message_insert = (new Message)->actionInsert($DID,$myId,$this->message,date("Y-m-d H:i:s"));
+        $message_insert = (new Message)->actionInsert($DID[0]['id'],$myId,$this->message,date("Y-m-d H:i:s"));
          return $message_insert->save();
 
     }

@@ -84,6 +84,13 @@ class Dialog extends ActiveRecord implements IdentityInterface
         return $model;
     }
 
+    public function actionUpdateStatus($id){
+        $model = Dialog::findOne(['id' => $id]);
+        $model->status = 0;
+        $model->save();
+        return $model;
+    }
+
     /**
      * Returns a key that can be used to check the validity of a given identity ID.
      *
