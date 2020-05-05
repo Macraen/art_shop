@@ -59,7 +59,7 @@ AppAsset::register($this);
         <div class="browser_width colelem" id="u120395-bw">
             <div class="shadow" id="u120395"><!-- group -->
                 <div class="clearfix" id="u120395_align_to_page">
-                    <a class="nonblock nontext clip_frame grpelem shared_content" id="u32632" href="index.html" data-content-guid="u32632_content"><!-- image --><img class="block temp_no_img_src" id="u32632_img" data-orig-src="web/images/art%20%d0%bf%d1%80%d0%be%d1%81%d1%82%d1%96%d1%80.png?crc=3989492883" alt="" width="153" height="46" src="web/images/blank.gif?crc=4208392903"/></a>
+                    <a class="nonblock nontext clip_frame grpelem shared_content" id="u32632" href="index.html" data-content-guid="u32632_content"><!-- image --><img class="block temp_no_img_src" id="u32632_img" data-orig-src="web/images/art%20%d0%bf%d1%80%d0%be%d1%81%d1%82%d1%96%d1%80.png?crc=3989492883" alt="" width="153" height="46" src="web/images/art%20%d0%bf%d1%80%d0%be%d1%81%d1%82%d1%96%d1%80.png?crc=3989492883"/></a>
                     <nav class="MenuBar clearfix grpelem" id="menuu31643"><!-- horizontal box -->
                         <div class="MenuItemContainer clearfix grpelem" id="u31672"><!-- vertical box -->
                             <a class="nonblock nontext MenuItem MenuItemWithSubMenu clearfix colelem" id="u31673" href="index.html"><!-- horizontal box --><div class="MenuItemLabel NoWrap clearfix grpelem" id="u31676-4"><!-- content --><p class="shared_content" data-content-guid="u31676-4_0_content">ГАЛЕРЕЯ</p></div></a>
@@ -187,7 +187,7 @@ AppAsset::register($this);
                     if($mDialog!=NULL):
                     ?>
                     <div class="rounded-corners clip_frame grpelem shared_content" id="u29063" data-content-guid="u29063_content"><!-- image -->
-                        <img class="block temp_no_img_src" id="u29063_img" data-orig-src="<?="../../webroot/uploads/".$sender[image];?>" alt="" width="44" height="44" src="<?=$sender[image];?>"/>
+                        <img class="block temp_no_img_src" id="u29063_img" data-orig-src="<?="../../webroot/uploads/".$sender[image];?>" alt="" width="44" height="44" src="<?="../../webroot/uploads/".$sender[image];?>"/>
                     </div>
                     <a class="nonblock nontext rounded-corners clearfix grpelem" id="u26076" href="<?= Url::toRoute(['site/dialog', 'id'=>$sender[id], 'mDialog'=>$mDialog[0]['id']])?>"><!-- column --><div class="clearfix colelem" id="pu14650-4"><!-- group --><div class="clearfix grpelem shared_content" id="u14650-4" data-content-guid="u14650-4_content"><!-- content --><p id="u14650-2"><?=$sender[firstname]." ".$sender[surename]?></p></div><div class="rounded-corners grpelem shared_content" id="u26169" data-content-guid="u26169_content"><!-- simple frame --></div><div class="clearfix grpelem shared_content" id="u26148-4" data-content-guid="u26148-4_content"><!-- content --><p id="u26148-2">нове повідомлення</p></div></div><div class="clearfix colelem shared_content" id="u26106-4" data-content-guid="u26106-4_content"><!-- content --><p id="u26106-2"><?=$message[0]['text']?></p></div></a>
                     <? endif;?>
@@ -217,9 +217,7 @@ AppAsset::register($this);
                 <?php $form = ActiveForm::begin(); ?>
 
                 <h3 class="text">Завантаження зображення</h3>
-                <?= $form->field($model, 'image', ['options' => ['class' => 'fileInput']])->fileInput(['maxlength' => true]);
-
-                ?>
+                <?= $form->field($model, 'image', ['options' => ['class' => 'fileInput']])->fileInput(['maxlength' => true]); ?>
 
                 <div class="form-group">
                     <?= Html::submitButton('Завантажити', ['class' => 'btn btn-success']) ?>
@@ -234,7 +232,7 @@ AppAsset::register($this);
             <div id="u31041"><!-- group -->
                 <div class="clearfix" id="u31041_align_to_page">
                     <div class="clearfix grpelem" id="pu32840"><!-- column -->
-                        <a class="nonblock nontext clip_frame colelem shared_content" id="u32840" href="index.html" data-content-guid="u32840_content"><!-- image --><img class="block temp_no_img_src" id="u32840_img" data-orig-src="web/images/art%20%d0%bf%d1%80%d0%be%d1%81%d1%82%d1%96%d1%80.png?crc=3989492883" alt="" width="189" height="57" src="web/images/blank.gif?crc=4208392903"/></a>
+                        <a class="nonblock nontext clip_frame colelem shared_content" id="u32840" href="index.html" data-content-guid="u32840_content"><!-- image --><img class="block temp_no_img_src" id="u32840_img" data-orig-src="web/images/art%20%d0%bf%d1%80%d0%be%d1%81%d1%82%d1%96%d1%80.png?crc=3989492883" alt="" width="189" height="57" src="web/images/art%20%d0%bf%d1%80%d0%be%d1%81%d1%82%d1%96%d1%80.png?crc=3989492883"/></a>
                         <div class="clearfix colelem shared_content" id="pu32850-4" data-content-guid="pu32850-4_content"><!-- group -->
                             <div class="clearfix grpelem shared_content" id="u32850-4" data-content-guid="u32850-4_content"><!-- content -->
                                 <p id="u32850-2">За питаннями:</p>

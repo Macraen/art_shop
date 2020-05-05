@@ -12,6 +12,7 @@ use app\models\Dialog;
 use app\models\ImageUpload;
 use app\models\MessageForm;
 use app\models\Repass;
+use app\models\SortForm;
 use app\models\User;
 use lavrentiev\widgets\toastr\Notification;
 use sintret\chat\ChatRoom;
@@ -36,9 +37,54 @@ class SiteController extends Controller
             ->limit($pagination->limit)
             ->all();
 
-        $popular = Article::find()->orderBy('viewed desc')->limit(5)->all();
+        $popular = Article::find()->orderBy('viewed desc')->where(['status' => 1])->limit(5)->all();
         $recent = Article::find()->orderBy('date ASC')->limit(4)->all();
         $categories = Category::find()->all();
+
+        $sort = new SortForm();
+        if ($sort->load(Yii::$app->request->post())&& $sort->validate()){
+//            print_r($sort);
+            $priceFrom = 0;
+            $priceTo = 99999;
+            $category = 989;
+
+            if(isset($sort->priceFrom)&&isset($sort->priceTo)){
+                $priceFrom = $sort->priceFrom;
+                $priceTo = $sort->priceTo;
+            }
+
+            if(isset($sort->category)&&!empty($sort->category)){
+                $category = $sort->category;
+            }
+
+
+            if(isset($sort->sort)){
+                switch ($sort->sort){
+                    case 0:
+                        $sortT = 'date ASC';
+                        $query = $this->sortedArticles($sortT, $priceFrom, $priceTo,$category);
+                        break;
+                    case 1:
+                        $sortT = 'viewed desc';
+                        $query = $this->sortedArticles($sortT, $priceFrom, $priceTo,$category);
+                        break;
+                    case 2:
+                        $sortT = 'price asc';
+                        $query = $this->sortedArticles($sortT, $priceFrom, $priceTo,$category);
+                        break;
+                    case 3:
+                        $sortT = 'price desc';
+                        $query = $this->sortedArticles($sortT, $priceFrom, $priceTo,$category);
+                        break;
+                }
+            }
+        }
+
+        $countQuery = $query->count();
+        $pagination = new Pagination(['totalCount' => $countQuery, 'pageSize'=>5]);
+        $articles = $query->offset($pagination->offset)
+            ->limit($pagination->limit)
+            ->all();
 
         return $this->render('index', [
             'articles'=>$articles,
@@ -46,7 +92,16 @@ class SiteController extends Controller
             'popular' => $popular,
             'recent' => $recent,
             'categories'=> $categories,
+            'sort'=> $sort,
         ]);
+    }
+
+    public function sortedArticles($sortT, $priceFrom, $priceTo,$category){
+        if($category==989){
+            return Article::find()->orderBy($sortT)->where(['status' => 1])->andWhere(['>','price', $priceFrom-1])->andWhere(['<','price', $priceTo+1]);
+        } else{
+            return Article::find()->orderBy($sortT)->where(['status' => 1])->andWhere(['>','price', $priceFrom-1])->andWhere(['<','price', $priceTo+1])->andWhere(['category_id' =>$category]);
+        }
     }
 
     public function actionView($id){
@@ -57,7 +112,7 @@ class SiteController extends Controller
         $comments = $article->comments;
         $user = User::className();
         $commentForm = new CommentForm();
-        $message = new MessageForm();
+//        $message = new MessageForm();
 
         $article->viewedCounter();
 
@@ -69,7 +124,7 @@ class SiteController extends Controller
             'categories'=> $categories,
             'comments'=> $comments,
             'commentForm'=>$commentForm,
-            'message'=>$message,
+//            'message'=>$message,
         ]);
     }
 
@@ -335,7 +390,6 @@ public function actionDialog($id, $mDialog){
         ->from('message')
         ->where(['did' => $mDialog])
         ->orderBy('date DESC')
-        ->limit(5)
         ->all();
 
     $model = new MessageForm();
@@ -353,6 +407,22 @@ public function actionDialog($id, $mDialog){
         'messages'=>$messages,
         'model' => $model,
     ]);
+}
+
+public function actionCreate(){
+    $model = new Article();
+
+    if ($model->load(Yii::$app->request->post()) && $model->saveArticle()) {
+        return $this->redirect(['view', 'id' => $model->id]);
+    }
+
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+}
+
+public function actionAuction(){
+    return $this->render('auction');
 }
 
 

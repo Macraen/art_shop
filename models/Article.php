@@ -28,9 +28,9 @@ class Article extends \yii\db\ActiveRecord
      * {@inheritdoc}
      */
     public static function tableName()
-    {
-        return 'article';
-    }
+{
+    return 'article';
+}
 
     /**
      * {@inheritdoc}
@@ -42,10 +42,12 @@ class Article extends \yii\db\ActiveRecord
 //            [['price', 'viewed', 'user_id', 'status', 'category_id'], 'integer'],
 //            [['date'], 'safe'],
 //            [['title', 'image'], 'string', 'max' => 255],
+
+
         [['title'], 'required'],
             [['title', 'description', 'content', 'image'], 'string'],
             [['price'], 'integer'],
-            [['date'], 'date', 'format'=>'php:d-m-Y'],
+            //[['date'], 'date', 'format'=>'php:d-m-Y'],
             [['date'], 'default', 'value'=>date('d-m-Y')],
             [['status'], 'default', 'value'=>1],
             [['title'], 'string', 'max'=>255]

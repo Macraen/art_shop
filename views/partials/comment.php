@@ -4,25 +4,7 @@ use yii\widgets\ActiveForm;
 if(!empty($comments)): ?>
 
     <?php foreach ($comments as $comment):?>
-<!--    <script type="text/javascript">-->
-<!--        -->
-<!--        $(function () {-->
-<!--            $('#comment_f').submit(function(e){-->
-<!--                e.preventDefault();-->
-<!--                var data = $(this).serialize();-->
-<!--                $.ajax({-->
-<!--                    type: "POST",-->
-<!--                    url: "comment_reload.php",-->
-<!--                    data: data,-->
-<!--                    success: function (result) {-->
-<!--                        $('#comment').html(result);-->
-<!--                    }-->
-<!--                });-->
-<!--            });-->
-<!--        })-->
-<!--        -->
-<!---->
-<!--    </script>-->
+
         <div class="bottom-comment" id="comment"><!--bottom comment-->
             <div class="comment-img">
                 <img width="50" class="img-circle" src="<?= $comment->user->image; ?>" alt="">
